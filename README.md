@@ -1,4 +1,4 @@
-# CarbonBlackResponse
+# Carbon Black Response Scripts
 Scripts created and used with Carbon Black Response
 
 ## Scripts
