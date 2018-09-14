@@ -29,7 +29,7 @@ CSize = 100
 LogRotateFile='/etc/logrotate.d/partition'
 if not os.path.isfile(LogRotateFile):
 	f = open(LogRotateFile, "w")
-	f.write("/var/log/partition/PartitionManagement.log {\n\tmissingok\n\tnotifempty\n\tcompress\n\tdaily\n}\n")
+	f.write("/var/log/partition/partition.log {\n\tmissingok\n\tnotifempty\n\tcompress\n\tdaily\n}\n")
 	f.close()
 
 ##LOGGING###
@@ -38,15 +38,14 @@ LogFolder='/var/log/partition/'
 if not os.path.exists(LogFolder):
 	try:
 		os.makedirs(LogFolder)
-		"Folder {} Created".format(LogFolder)
+		logging.info("Folder {} Created".format(LogFolder))
 	except Exception as error:
-		"Unable to make Folder {}".format(LogFolder)
+		logging.error("Unable to make Folder {}".format(LogFolder))
 
 
-LFILE="PartitionManagement.log"
+LFILE="partition.log"
 LogFile=LogFolder + LFILE
-logging.basicConfig(filename=LogFile,level=logging.DEBUG)
-#logging.basicConfig(filename=LogFile,level=logging.WARNING)
+logging.basicConfig(filename=LogFile,level=logging.INFO,format='%(asctime)s %(levelname)-8s %(message)s',datefmt='%a, %d %b %Y %H:%M:%S')
 #Verify that Cold Storage and Warm Storage exist on the disk, if not exit with Warning log
 if not os.path.exists(WStorage) or not os.path.exists(CStorage):
 	logging.warning("One of the required folders does not exist or are not correctly defined. {} or {} ".format(WStorage, CStorage))
@@ -215,13 +214,13 @@ def tarball(archive_name,source_path):
 	import fnmatch
 	import re
 	'''
-	#Debug Information - Uncomment out next line to see output
+	#Debug Information - 
 	logging.debug("Compressing files to {0}".format(archive_name), exc_info=True)
 	#Opens Tarfile
 	tar = tarfile.open(archive_name, "w:gz")
 	#Add All Items in source_path to tarfile
 	for file_name in glob.glob(os.path.join(source_path, "*")):
-		#Debug Information - Uncomment out next line to see output
+		#Debug Information - 
 	    logging.debug(" Adding {0} to {1}".format(file_name, archive_name))
 	    tar.add(file_name, os.path.basename(file_name))
 	 #Close Tarfile
@@ -548,7 +547,7 @@ CStorage='/var/log/partition'
 		if DELETE_COLD == '10':
 			logging.info("unmount partition {}".format(min(WARM)))
 			unmount_partition(WARM)
-			logging.info("Creating Tarball from {}".format(WARM[OLD_WARM]['name']))
+			logging.info("Creating tarball from {}".format(WARM[OLD_WARM]['name']))
 			tarball(CStorage+'/'+WARM[OLD_WARM]['name']+'.tar.gz',WARM[OLD_WARM]['dir'])
 		else:
 			logging.info("deleting the oldest cold partition {}".format(OLD_COLD))
@@ -557,7 +556,7 @@ CStorage='/var/log/partition'
 				os.remove(CStorage+'/'+OLD_COLD)
 			logging.info("unmount partition {0}".format(WARM[min(WARM)]['dir']))
 			unmount_partition(WARM)
-			logging.info("Creating Tarball from {}".format(WARM[OLD_WARM]['name']))
+			logging.info("Creating tarball from {}".format(WARM[OLD_WARM]['name']))
 			tarball(CStorage+'/'+WARM[OLD_WARM]['name']+'.tar.gz',WARM[OLD_WARM]['dir'])
 
 
