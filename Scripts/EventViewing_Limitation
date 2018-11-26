@@ -1,0 +1,68 @@
+Event Limitation
+
+Disclaimer:
+WARNING Please only make the changes if you understand what you're reading. making a mistake during this process and leave carbon black web server useless.
+
+Carbon Black Response does an API get request from process to gather all the event data.  Within this API call CB limits the number of events to 500 events.
+This is done for performance reasons... however I do not enjoy clicking though 50 pages looking for specific information.
+
+
+Request URL:https://cbradmin.stormontvail.org/api/v5/process/00000fda-0000-277c-01d3-e6b437b41795/0/event?cb.min_last_update=2018-05-08T10:11:43.975Z&cb.max_last_update=2018-05-08T10:12:07.470Z&cb.event_count=500&cb.event_start=500
+
+
+First thing we have do do is find the Javascript that setting these variables.  There are multiple ways to search this in the server, but we can really just use the web browser to find the variable name then search the server.. We're currently looking for the cb.event_count
+
+[root@cbradmin ~]# grep -r cb.event_count /var/www/cb/js | awk 'BEGIN{FS=":"} {print $1}'
+/var/www/cb/js/views/analyze/analyzeView.js
+/var/www/cb/js/cb.min.e4069f26.js
+
+
+In this case we're using cb.min.e4069f26.js found at  https://server/js/cb.min.e4069f26.js  This updates each time you update response... oh yayaya... 
+
+The easiest way to understand the file is opening it in a browser and searching for cb.event_count
+
+
+A quick search reveals cb.event_count is equal to this.eventsPerPage -->  &cb.event_count="+this.eventsPerPage
+
+
+You can then look into the js for the following "this.eventsPerPage="  and find "this.eventsPerPage=500"
+
+
+Now we need to get back on the server to make the changes.
+
+
+
+lets backup that js before we make any changes.
+
+[root@cbradmin ~]# cp /var/www/cb/js/cb.min.e4069f26.js ~/.
+
+
+Now lets update the JS with a bigger number of events.
+
+vim /var/www/cb/js/cb.min.e4069f26.js
+
+
+!!Search for the this.eventsPerPage
+/this.eventsPerPage=
+
+First we'll change it to 1,000 Events and save the file.  We reload the page and its instantly updated.
+
+
+there are 47 pages of events.  This is still a lot of events..
+
+Now if we change it to 10,000 events per page you can now there are only 2 page. 
+
+If you look at the API request
+cb.event_count=10000
+cb.event_start=10000
+
+
+However, if we count the events, we're only shown 500 events on the page, we can fix the number of events shown 
+below by changing the this.addEventsCount. (THIS WILL IMPACT PERFORMANCE) 
+
+Searching the same JavaScript File for this.addEventsCount=500 and updating it to the same number you used for this.eventsPerPage
+and you'll now load all the events up to the number you entered.. 
+
+Please remember that making these changes will require more time to load the page, however so much time is saved searching
+for specific events. 
+
