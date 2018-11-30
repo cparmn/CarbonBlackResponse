@@ -27,11 +27,25 @@ import re
 Filequery = cb.select(Process).where("filemod:.doc")
 for proc in Filequery:
 	for filemod in proc.filemods:
-		if re.match():
-		print filemod
+		if re.match('^.*?\.doc$',filemod.path) is not None and re.match('^Deleted$',filemod.type) is None:
+			"{}, {}, {}, {}, {}, {}, {}, {}".format(filemod.timestamp,proc.process_name,proc.process_pid,proc.username,proc.hostname,proc.comms_ip,filemod.path,filemod.type)
+
+
  
 #All Sensors with IP Range
 
 query = cb.select(Sensor).where("network_adapters:192.168.50.*")
 for pc in query:
 	print pc
+	
+
+#Searching Network Connections
+userquery = cb.select(Process).where("start:[2017-11-07T00:00:00 TO 2017-11-08T00:00:00]")
+for proc in userquery:
+	for netconn in proc.netconns:
+			if netconn.local_port == 23880 or netconn.local_port == 32528:
+				print proc.start, proc.hostname, proc.interface_ip, proc.username, proc.process_name, proc.process_pid, proc.cmdline, netconn.remote_ip, netconn.local_port, netconn.direction
+
+#Searching md5
+query = cb.select(Process).where("md5:34C537DC70EC8650E23B7753F58877DF or md5:6859B739E8206294F86066E5CB0448B1")
+
