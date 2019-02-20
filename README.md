@@ -39,6 +39,7 @@ CStorage = '/var/cb/data/solr5/_cbevents'
 CSize = 100
 ```
 
+
 **msijar.py**
 
 Requirements:
@@ -48,7 +49,7 @@ This script finds the filemods of MSI files with jar extensions and then look fo
 ```
 python msijar.py 
 Please enter number of days to search or all:[All]60 
-Enter File name:msijar.csv 
+Enter File name:[msijar.csv]msijar.csv 
 Overwrite the file msijar.csv? Yes/No [Yes]: 
 Creating a csv file msijar.csv
 ```
@@ -59,6 +60,4 @@ Timestamp@WebURL@Process Name@Process PID@Process Unique ID@Parent Process@Paren
 2019-01-17 21:02:29.631000@https://ServerName.com/#/analyze/00992/84@javaw.exe@4336@000-0000-10f0-01d4-a999888-27823604825763@explorer.exe@6004@0000-0000-10f0-01d4-a999888-27823604825763@"C:\Program Files\Java\jre1.8.0_191\bin\javaw.exe" -jar "C:\Users\Username\Desktop\Malware.jar" @Hostname\Username@hostname@0.0.0.0@c:\users\username\desktop\malware.jar@d07fa3f1ace1936e3f7@0@6
 ```
 
-Todo
- 1. Update with Crontab information
 
