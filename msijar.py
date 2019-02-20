@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import re, csv, os, ntpath, warnings
+import re, csv, os, ntpath
 
 try:
 	from cbapi.response import *
 except ImportError as error:
-	exit('Unable to import cbapi Please ensure its installed, more information can be found https://cbapi.readthedocs.io/en/latest/installation.html')
+	exit('\033[1;31;40mUnable to import cbapi Please ensure its installed, more information can be found https://cbapi.readthedocs.io/en/latest/installation.html\033[0m')
 
 def ask_user(file):
     response = ''
@@ -20,7 +20,7 @@ def main():
 		try:
 			if string.lower() == 'all':
 				days = string
-				print("\033[1;31;40m Warning: Searching all event data can take extended periods of time\033[0m")
+				print("\033[1;31;40mWarning: Searching all event data can take extended periods of time\033[0m")
 				break
 			else:
 				days = abs(int(string))
