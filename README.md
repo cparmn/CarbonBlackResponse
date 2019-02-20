@@ -46,14 +46,14 @@ Requirements:
 1. Installing Carbon Black API (cbapi) on Carbon Black Server
 
 This script finds the filemods of MSI files with jar extensions and then look for any execution with this method with the file name.  The CSV output is delimited via @ 
-```
+```bash
 python msijar.py 
 Please enter number of days to search or all:[All]60 
 Enter File name:[msijar.csv]msijar.csv 
 Overwrite the file msijar.csv? Yes/No [Yes]: 
 Creating a csv file msijar.csv
 ```
-```
+```bash
 cat msijar.csv 
 Timestamp@WebURL@Process Name@Process PID@Process Unique ID@Parent Process@Parent PID@Parent Unique ID@Command Line@Username@Hostname@IP Address@File Path@File MD5@Number of Network Connections@Number of Child Processes
 2019-01-17 21:02:29.631000@https://ServerName.com/#/analyze/000000175-7777-1774-9999-999999-00000/7623@explorer.exe@6004@00000175-7777-1774-9999-999999-00000@userinit.exe@5932@00000175-0001@C:\Windows\Explorer.EXE@computername\username@ccomputername@0.0.0.0@c:\users\tbrady\desktop\malware.jar@d07fa3f1ace1936e3f7@0@4
