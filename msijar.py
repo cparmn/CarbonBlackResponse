@@ -19,7 +19,7 @@ def main():
 		string = input("Please enter number of days to search or all:[All]") or "all"
 		try:
 			if string.lower() == 'all':
-				days = string
+				days = string.lower()
 				print("\033[1;31;40mWarning: Searching all event data can take extended periods of time\033[0m")
 				break
 			else:
