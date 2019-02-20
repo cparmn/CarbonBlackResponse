@@ -1,4 +1,17 @@
 #!/usr/bin/env python3
+'''
+Carbon Black TAU - Casey Parman 2-20-19
+Created to search for filemods of jar files that are identified as compound documents 
+The MIT License (MIT)
+
+Copyright (c) 2018 Carbon Black
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+'''
 import re, csv, os, ntpath
 
 try:
@@ -7,12 +20,46 @@ except ImportError as error:
 	exit('\033[1;31;40mUnable to import cbapi Please ensure its installed, more information can be found https://cbapi.readthedocs.io/en/latest/installation.html\033[0m')
 
 def ask_user(file):
+    '''
+	Fuction to for asking users if they want to overwrite files
+
+    Parameters
+	``````````
+	file : string
+		Filename that already exist on the system
+
+	Local Variable (attributes)
+	``````````````	
+    response : String
+        Answer from the user 
+	Global Variables
+	````````````````
+	Imports Required for Function
+	`````````````````````````````
+	'''
+
     response = ''
     while response.lower() not in {"yes", "no"}:
         response = input("Overwrite the file {}? Yes/No [Yes]:".format(file)) or "yes"
     return response.lower() == "yes"
 
 def main():
+    '''
+	Main function of the program this is where all the magic happens. 
+
+    Parameters
+	``````````
+	
+	Local Variable (attributes)
+	``````````````	
+    I'm being lazy sometime i'll go back and document all these variables 
+
+	Global Variables
+	````````````````
+	Imports Required for Function
+	`````````````````````````````
+	all the imports...
+	'''
 
 	cb = CbResponseAPI()
 	while True:
@@ -29,7 +76,7 @@ def main():
 			print("This was not a number, please try again.")
 	if days != 'all':
 		hours = str(int(days) * 24)
-	FilewriteFilename =  input("Enter File name:")
+	FilewriteFilename =  input("Enter File name:[msijar.csv]") or "msijar.csv"
 	if os.path.exists(FilewriteFilename):
 		if ask_user(FilewriteFilename):
 			print("Creating a csv file {}".format(FilewriteFilename))
