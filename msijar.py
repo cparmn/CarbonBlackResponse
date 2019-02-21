@@ -44,15 +44,15 @@ def ask_user(file):
     return response.lower() == "yes"
 
 def main():
-    '''
+	'''
 	Main function of the program this is where all the magic happens. 
 
-    Parameters
+	Parameters
 	``````````
-	
+
 	Local Variable (attributes)
 	``````````````	
-    I'm being lazy sometime i'll go back and document all these variables 
+	I'm being lazy sometime i'll go back and document all these variables 
 
 	Global Variables
 	````````````````
