@@ -86,7 +86,6 @@ def main():
 		Filequery = cb.select(Process).where("filemod:.jar")
 	else:
 		Filequery = cb.select(Process).where("filemod:.jar start:-"+hours+"h")
-	
 	with open(FilewriteFilename, 'w') as csvfile:
 		FileModExport = csv.writer(csvfile, delimiter='@',
 						quotechar='|', quoting=csv.QUOTE_MINIMAL)
